@@ -60,21 +60,6 @@ def fillNext(pos):
             bestMove = bestMove + 'V'
 
 
-    # bestOpt = [int(opts[i]) for i in indexOfBest]
-    #
-    # optionsMoves = ['D', 'H', 'V']
-    # S[x, y] = newScore
-    #
-    #
-    # if bestOpt[0] == opt1:
-    #     P[x, y] = P[x, y] + 'D'
-    # if bestOpt[0] == opt2:
-    #     P[x, y] = P[x, y] + 'H'
-    # if bestOpt[0] == opt3:
-    #     P[x, y] = P[x, y] + 'V'
-
-
-
 # fills out the whole grids of S and P
 def fillAll(dims):
     for i in range(dims[0]-1):
