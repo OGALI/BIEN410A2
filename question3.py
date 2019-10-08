@@ -6,11 +6,9 @@ import matplotlib.ticker as plticker
 
 def createPMatrix(dims):
     P = np.array([''])
-    for i in range(dims[0] * dims[1] - 1):
+    for i in range(dims[0] * dims[1]-1):
         P = np.append(P, '')
     P = np.reshape(P, dims)
-    print('shape of P',P.shape)
-    print('shape of S', S.shape)
     return P
 
 
@@ -52,44 +50,49 @@ def fillNext(pos):
     indexOfBest = [i for i, x in enumerate(opts) if x == newScore]
     bestMove = ''
     for i in range(len(indexOfBest)):
-        if indexOfBest == 0:
+        if indexOfBest[i] == 0:
             bestMove = bestMove + 'D'
-        if indexOfBest == 1:
+        if indexOfBest[i] == 1:
             bestMove = bestMove + 'H'
-        if indexOfBest == 2:
+        if indexOfBest[i] == 2:
             bestMove = bestMove + 'V'
 
+    S[y, x] = newScore
+    P[y ,x] = bestMove
 
+
+
+# TODO i have to do -2 for some reason
 # fills out the whole grids of S and P
 def fillAll(dims):
-    for i in range(dims[0]-1):
-        for j in range(dims[1]-1):
-            fillNext((i+1,j+1))
+    for i in range(1,dims[1]-1):
+        for j in range(1, dims[01]):
+            fillNext((i,j))
 
 
-# TODO multiple solutions fix
-def tracer(dims):
-    # remove 1 cuz length is mag
-    dimY = dims[0]-1
-    dimX = dims[1]-1
-
-    allign = str(seq1[dimY])
-    print(dimY, dimX, P.shape)
-    print(P[16, 14])
-    while dimY > 0 and dimX > 0:
-        if P[dimY, dimX] == 'D':
-            dimX = dimX -1
-            dimY = dimY -1
-            allign = allign + str(seq2[dimX])
-        elif P[dimY, dimX] == 'H':
-            dimX = dimX - 1
-            allign = allign + str(seq2[dimX])
-        elif P[dimY, dimX] == 'V':
-            dimY = dimY - 1
-            allign = allign + str(seq2[dimX])
-        # dimX = dimX - 1
-        # dimY = dimY - 1
-    print(allign[::-1])
+# # TODO multiple solutions fix
+# # def tracer(dims):
+# #     # remove 1 cuz length is mag
+# #     dimY = dims[0]-1
+# #     dimX = dims[1]-1
+# #
+# #     allign = str(seq1[dimY])
+# #     print(dimY, dimX, P.shape)
+# #     print(P[16, 14])
+# #     while dimY > 0 and dimX > 0:
+# #         if P[dimY, dimX] == 'D':
+# #             dimX = dimX -1
+# #             dimY = dimY -1
+# #             allign = allign + str(seq2[dimX])
+# #         elif P[dimY, dimX] == 'H':
+# #             dimX = dimX - 1
+# #             allign = allign + str(seq2[dimX])
+# #         elif P[dimY, dimX] == 'V':
+# #             dimY = dimY - 1
+# #             allign = allign + str(seq2[dimX])
+# #         # dimX = dimX - 1
+# #         # dimY = dimY - 1
+# #     print(allign[::-1])
 
 
 
@@ -101,15 +104,18 @@ def tracer(dims):
 # seq2 = 'GGATGCGTGATCTG'
 seq1 = 'GATTACA'
 seq2 = 'GATAGA'
+
 seq1 = "-"+seq1
 seq2 = "-"+seq2
 scheme = [1, 0, -1]
 scheme1 = [3, -1, 0]
 
-dims = (len(seq1), len(seq2))
+
+dims = [len(seq1), len(seq2)]
 S = np.zeros(dims)
 P = createPMatrix(dims)
 initialFill(S, P)
+# dims = (len(seq1)-1, len(seq2)-1)
 fillAll(dims)
 # fillNext((1,1))
 
