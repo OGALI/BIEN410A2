@@ -4,14 +4,15 @@ import matplotlib.image as mpimg
 import matplotlib.ticker as plticker
 
 
+# Correct
 def createPMatrix(dims):
-    P = np.array([''])
+    P = np.array(['    '])
     for i in range(dims[0] * dims[1]-1):
         P = np.append(P, '')
     P = np.reshape(P, dims)
     return P
 
-
+# Correct
 def initialFill(S, P):
     dims = S.shape
     for i in range(dims[1]):
@@ -28,20 +29,14 @@ def initialFill(S, P):
 def fillNext(pos):
     # initialize the score for each option; opt1 diag, opt2 horiz, opt3 verti
     x, y = pos
-    opt1 = 0
-    opt2 = 0
-    opt3 = 0
 
-
-    # option 1
+    # option
+    opt1 = int(S[y - 1, x - 1] + scheme['miss'])
+    opt2 = int(S[y, x - 1] + scheme['gap'])
+    opt3 = int(S[y - 1, x] + scheme['gap'])
     if seq1[y] == seq2[x]:
-        opt1 = S[y-1, x-1] + scheme[0]
-    else:
-        opt1 = S[x-1, y-1] + scheme[1]
-    # option 2
-    opt2 = S[y, x-1]  + scheme[2]
-    # option 3
-    opt3 = S[y-1, x] + scheme[2]
+        opt1 = int(S[y-1, x-1] + scheme['match'])
+
 
     opts = [opt1, opt2, opt3]
     newScore = max(opts)
@@ -58,16 +53,16 @@ def fillNext(pos):
             bestMove = bestMove + 'V'
 
     S[y, x] = newScore
-    P[y ,x] = bestMove
+    P[y, x] = bestMove
 
 
 
-# TODO i have to do -2 for some reason
+# Correct
 # fills out the whole grids of S and P
 def fillAll(dims):
-    for i in range(1,dims[1]-1):
-        for j in range(1, dims[01]):
-            fillNext((i,j))
+    for x in range(1, dims[0]):
+        for y in range(1, dims[1]):
+            fillNext((x, y))
 
 
 # # TODO multiple solutions fix
@@ -107,11 +102,12 @@ seq2 = 'GATAGA'
 
 seq1 = "-"+seq1
 seq2 = "-"+seq2
-scheme = [1, 0, -1]
-scheme1 = [3, -1, 0]
+# scheme = [1, 0, -1]
+# scheme = [3, -1, 0]
+scheme = {'match':1, 'miss':0, 'gap':-1}
 
 
-dims = [len(seq1), len(seq2)]
+dims = (len(seq1), len(seq2))
 S = np.zeros(dims)
 P = createPMatrix(dims)
 initialFill(S, P)
